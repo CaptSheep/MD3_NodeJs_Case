@@ -1,9 +1,10 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
-
 const app = express()
 app.use(express.json());
 const users = [];
+app.use(express.static('public'));
+app.use(express.static('files'))
 app.set('view engine', 'html');
 app.engine('html', require('ejs').renderFile);
 app.get('/', (req, res) => {
