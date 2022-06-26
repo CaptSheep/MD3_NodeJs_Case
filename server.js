@@ -25,7 +25,6 @@ connection.connect(function(err) {
 })
 
 const server = http.createServer(async(res, req) => {
-    require('dotenv').config()
     let pathUrl = url.parse(req.url).pathname;
     switch (pathUrl) {
         case '/':
