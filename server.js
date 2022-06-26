@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const http = require('http');
 const qs = require('qs');
-const url = require("url");
+const url = require('url')
 const fs = require('fs');
 const util = require('util');
 
@@ -9,7 +9,7 @@ const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'root',
-    port: '8889',
+    port: '3306',
     database: 'shopping_web',
     charset: 'utf8_general_ci',
     // socketPath: '/Applications/MAMP/tmp/mysql/mysql.sock'
