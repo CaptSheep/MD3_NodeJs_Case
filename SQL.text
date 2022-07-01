@@ -1,0 +1,12 @@
+CREATE TABLE posts(
+    id int PRIMARY KEY AUTO_INCREMENT,
+    title varchar(255),
+    content varchar(255),
+    userId int,
+    image varchar(255),
+    statusId int,
+    price int,
+    quantity int,
+    FOREIGN KEY (userId) REFERENCES users(id),
+    FOREIGN KEY ( statusId) REFERENCES status(id)
+)

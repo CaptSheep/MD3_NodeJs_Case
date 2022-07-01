@@ -11,13 +11,11 @@
     "license": "ISC",
     "dependencies": {
         "bcrypt": "^5.0.1",
-        "dotenv": "^16.0.1",
-        "jquery": "^3.6.0",
+        "fs": "^0.0.1-security",
         "mysql": "^2.18.1",
+        "nodemon": "^2.0.16",
         "qs": "^6.10.5",
+        "query": "^0.2.0",
         "url": "^0.11.0"
-    },
-    "devDependencies": {
-        "nodemon": "^2.0.16"
     }
 }
