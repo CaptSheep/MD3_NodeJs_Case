@@ -5,11 +5,12 @@ const fs = require('fs');
 const Database = require('./model/Database');
 const PostModel = require('./model/posts');
 const User = require('./model/user');
+const AuthController = require('./controller/authController');
 
 let database = new Database
 let postModel = new PostModel
 let user = new User
-
+let authController = new AuthController
 database.connection(function(err) {
     if (err) {
         console.log(err);;
@@ -25,9 +26,11 @@ const server = http.createServer(async(req, res) => {
 
     switch (path) {
         case '/':
-            user.login(req, res);
-
-
+            if (req.method === 'GET') {
+                authController.showForm(req, res, './views/login.html')
+            } else {
+                authController.login(req, res)
+            }
             break;
         case '/register':
             if (req.method === 'GET') {
