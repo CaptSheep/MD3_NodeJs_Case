@@ -10,3 +10,9 @@ CREATE TABLE posts(
     FOREIGN KEY (userId) REFERENCES users(id),
     FOREIGN KEY ( statusId) REFERENCES status(id)
 )
+
+create PROCEDURE checkAccount(@email varchar(255) ,@password varchar(255))
+AS
+BEGIN
+SELECT email, password from users where email = @email and password = @password
+END

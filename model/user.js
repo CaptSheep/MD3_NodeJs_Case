@@ -6,9 +6,10 @@ module.exports = class User {
         this.conn = this.db.connection();
 
     }
-    checkAccount(name, password) {
+    checkAccount(email, password) {
         return new Promise((resolve, reject) => {
-            let sql = `select name, password from users where name = '${name}' and password = '${password}'`
+            let sql = `select email, password from users where email = '${email}' and password = '${password}'`
+                // let sql = `call checkAccount('${email}','${password}')`
             this.conn.query(sql, (err, data) => {
                 if (err) {
                     reject(err);
@@ -30,7 +31,7 @@ module.exports = class User {
     }
     createAccount(data) {
         return new Promise((resolve, reject) => {
-            let sql = 'INSERT INTO users(name, email, password, address, roleId,image)  VALUES(N\'' + data.name + '\', N\'' + data.email + '\', N\'' + data.password + '\', N\'' + data.address + '\', N\'' + data.roleId + ')'
+            let sql = `INSERT INTO users (name, email, password, address, roleId,image)  VALUES('${data.name}','${data.email}','${data.password}','${data.address}',${data.roleId},'${data.image}')`
             this.conn.query(sql, (err, data) => {
                 if (err) {
                     reject(err);

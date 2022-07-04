@@ -13,14 +13,13 @@ let user = new User
 let authController = new AuthController
 database.connection(function(err) {
     if (err) {
-        console.log(err);;
+        console.log(err);
     } else {
         console.log('DB Connection Success')
     }
 })
 
 const server = http.createServer(async(req, res) => {
-    console.log(req.url);
     let parseUrl = url.parse(req.url);
     let path = parseUrl.pathname;
 
@@ -34,17 +33,19 @@ const server = http.createServer(async(req, res) => {
             break;
         case '/register':
             if (req.method === 'GET') {
-                fs.readFile('./views/register.html', 'utf-8', (err, data) => {
-                    if (err)
-                        throw new Error(err.message)
-                    res.write(data);
-                    res.end()
-                })
+                authController.showForm(req, res, './views/register.html')
+            } else {
+                authController.register(req, res)
             }
             break;
         case '/home':
             if (req.method === "GET") {
                 await postModel.showListPosts(req, res);
+            }
+            break;
+        case '/admin':
+            {
+                authController.showForm(req, res, './views/admin.html')
             }
             break;
         case '/create':

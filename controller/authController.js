@@ -3,6 +3,7 @@ const qs = require('qs')
 const User = require("../model/user")
 const cookie = require('cookie')
 
+
 class AuthController {
     constructor() {
         this.userModel = new User()
@@ -27,9 +28,9 @@ class AuthController {
         const data = Buffer.concat(buffer).toString();
         const user = qs.parse(data);
         let admin = '';
-        this.userModel.checkAccount(user.name, user.password).then(result => {
-            console.log(result);
-            if (result[0].length > 0) {
+        let result = await this.userModel.checkAccount(user.email, user.password)
+            result = JSON.parse(JSON.stringify(result))
+            if (result.length > 0) {
                 let nameFile = Date.now();
                 let sessionLogin = {
                     'session_name_file': nameFile,
@@ -41,16 +42,22 @@ class AuthController {
                     }
                 })
                 let cookieLogin = {
-                    id: result[0][0].id,
+                    id: result[0].id,
                     'session_name_File': nameFile
                 }
+                console.log(cookieLogin)
                 let admin = false;
                 res.setHeader('set-cookie', cookie.serialize('cookie-app', JSON.stringify(cookieLogin)));
-                result[0].forEach(item => {
-                    if (item.roleId === 'Admin') {
+                result.forEach(item => {
+                    if (item.roleId === 2) {
+                        console.log(item.roleId);
                         admin = true;
                         res.writeHead(301, { Location: '/admin' });
                         res.end();
+                    } else if (item.roleId === 1) {
+                        admin = false;
+                        res.writeHead(301, { Location: '/home' });
+                        res.end()
                     }
                 })
                 if (!admin) {
@@ -63,6 +70,18 @@ class AuthController {
                 res.end();
             }
 
+
+    }
+    async register(req, res) {
+        let buffer = [];
+        for await (const chunk of req) {
+            buffer.push(chunk);
+        }
+        const data = Buffer.concat(buffer).toString();
+        const user = qs.parse(data);
+        this.userModel.createAccount(user).then(result => {
+            res.writeHead(301, { Location: '/' });
+            res.end();
         });
     }
 }
