@@ -34,6 +34,7 @@ module.exports = class PostModel {
                     html += `<td>${items.statusId}</td>`
                     html += `<td>${items.price}</td>`
                     html += `<td>${items.quantity}</td>`
+                    html += `<td><a href="/info?id=${items.id}">Info</a></td>`
                     html += `<td><a onclick="confirm('Are you sure ?')" href="/delete?id=${items.id}">Delete</a></td>`
                     html += `<td><a href="/update?id=${items.id}">Update</a></td>`
                     html += '</tr>'
@@ -104,6 +105,40 @@ module.exports = class PostModel {
         })
         res.writeHead(301, 'Success', { Location: '/home' })
         res.end()
+    }
+    postInfo(req,res){
+        const urlPath = url.parse(req.url, true);
+        let queryString = urlPath.query;
+        let id = Number(queryString.id);
+        const infoQuery = `SELECT * FROM posts WHERE id = ${id}`
+        this.conn.query(infoQuery,(err,result)=>{
+            if(err){
+                throw new Error(err.message)
+            }
+              else{
+                 fs.readFile('./views/info.html','utf-8',(err,data)=>{
+                     let html = ''
+                     result.forEach(items => {
+                         html += '<tr>'
+                         html += `<td>${items.id}</td>`
+                         html += `<td>${items.title}</td>`
+                         html += `<td>${items.content}</td>`
+                         html += `<td>${items.userId}</td>`
+                         html += `<td>${items.image}</td>`
+                         html += `<td>${items.statusId}</td>`
+                         html += `<td>${items.price}</td>`
+                         html += `<td>${items.quantity}</td>`
+                         html += '</tr>'
+                         html += `<a href="/home">Back</a>`
+                     })
+                     data = data.replace('{list}', html)
+                     res.writeHead(200, { 'Content-Type': 'text/html' });
+                     res.write(data);
+                     return res.end();
+                 })
+            }
+
+        })
     }
 
 }

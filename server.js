@@ -28,14 +28,21 @@ const server = http.createServer(async(req, res) => {
             if (req.method === 'GET') {
                 authController.showForm(req, res, './views/login.html')
             } else {
-                authController.login(req, res)
+                await authController.login(req, res)
             }
             break;
         case '/register':
             if (req.method === 'GET') {
                 authController.showForm(req, res, './views/register.html')
             } else {
-                authController.register(req, res)
+                await authController.register(req, res)
+            }
+            break;
+        case '/logout':
+            {
+                if (req.method === 'GET') {
+                    await authController.logout(req, res)
+                }
             }
             break;
         case '/home':
@@ -43,9 +50,18 @@ const server = http.createServer(async(req, res) => {
                 await postModel.showListPosts(req, res);
             }
             break;
+        case '/info':
+            {
+                if (req.method === 'GET') {
+                    await postModel.postInfo(req, res)
+                }
+            }
+            break;
         case '/admin':
             {
-                authController.showForm(req, res, './views/admin.html')
+                if (req.method === 'GET') {
+                    authController.showForm(req, res, './views/admin.html')
+                }
             }
             break;
         case '/create':

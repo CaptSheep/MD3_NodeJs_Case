@@ -8,8 +8,7 @@ module.exports = class User {
     }
     checkAccount(email, password) {
         return new Promise((resolve, reject) => {
-            let sql = `select email, password from users where email = '${email}' and password = '${password}'`
-                // let sql = `call checkAccount('${email}','${password}')`
+            let sql = `select email, password,roleId from users where email = '${email}' and password = '${password}'`
             this.conn.query(sql, (err, data) => {
                 if (err) {
                     reject(err);

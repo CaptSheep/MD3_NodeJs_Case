@@ -1,0 +1,1 @@
+{"session_name_file":1657072530784,"data_user_login":{"email":"minh@gmail.com","password":"123123","roleId":1}}
